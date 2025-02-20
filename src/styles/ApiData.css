@@ -1,0 +1,28 @@
+.countrySelector{
+    background: rgb(37, 37, 37);
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(129, 131, 131, 0.3)
+}
+.inputField{
+    background: rgb(37, 37, 37);
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(129, 131, 131, 0.3) ;
+}
+.searchButton{
+    background: rgb(37, 37, 37);
+    color: white;
+    padding: 10px;
+    margin-left: 20px;
+    border-radius: 6px;
+    border: 1px solid rgba(129, 131, 131, 0.3);
+}
+
+.form-section{
+    margin-bottom: 30px;
+}
