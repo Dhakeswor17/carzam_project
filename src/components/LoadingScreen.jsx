@@ -1,9 +1,9 @@
-import './LoadingScreen.css'
+import './LoadingScreen.css';
 import reactLogo from './assets/G2KTitle.png';
 import appLogo from './assets/G2KLogo.png';
 import CheckList from './components/CheckListComp';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CheckListComp from './components/CheckListComp';
+
 
 function LoadingScreen() {
 

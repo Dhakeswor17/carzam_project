@@ -6,7 +6,7 @@ import { FiGrid } from 'react-icons/fi';
 import reactLogo from './assets/G2KTitle.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DragAndDrop from './components/DragAndDropComp.jsx';
-import LoadingScreen from './LoadingScreen';
+import LoadingScreen from './components/LoadingScreen.jsx';
 
 function MainApp() {
     return (
