@@ -1,6 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import './ApiData.css'
 import { FiArrowRight } from "react-icons/fi";
+import { useNavigate } from 'react-router-dom';
 
 
 function DataFetching() {
@@ -9,6 +11,7 @@ function DataFetching() {
     const [selectedCountry, setSelectedCountry] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [inputValue, setInputValue] = useState("");
+    const navigation = useNavigate();
 
     const countries = [
         "Denmark",
@@ -30,6 +33,10 @@ function DataFetching() {
         const fetchData = async () => {
             setLoading(true);
             setError(null);
+            navigation("/loading");
+            setTimeout(() => {
+                navigation("/");
+            }, 3000);
 
             //try {
             const baseUrl = "https://regcheck.org.uk/api/reg.asmx";
@@ -58,7 +65,7 @@ function DataFetching() {
         };
 
         fetchData();
-    }, [searchQuery]);
+    }, [searchQuery, navigation]);
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -70,10 +77,8 @@ function DataFetching() {
     };
 
     return (
-
-        
-            <div className='form-section'>
-                <select className='countrySelector' value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}>
+            <div className='col form-section mb-5 d-flex flex-column justify-content-center'>
+                <select className='col countrySelector p-3 mb-4 rounded' value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}>
                     {countries.map((country) => (
                         <option key={country} value={country}>
                             {country}
@@ -82,14 +87,14 @@ function DataFetching() {
                 </select>
                 <div>
                     <input
-                        className='inputField'
+                        className='col inputField p-3 mt-3 rounded'
                         type="text"
                         value={inputValue}
                         onChange={handleInputChange}
                         placeholder="Type licence plate"
                     />
 
-                    <button className='searchButton' onClick={handleButtonClick} disabled={loading}>
+                    <button className='col searchButton p-3 ms-3 rounded' onClick={handleButtonClick} disabled={loading}>
                         <FiArrowRight />
 
                     </button>
@@ -97,8 +102,7 @@ function DataFetching() {
 
                 {loading && <p>Loading...</p>}
                 {error && <p style={{ color: "red" }}>Error: {error}</p>}
-            </div>
-       
+            </div> 
     );
 }
 
