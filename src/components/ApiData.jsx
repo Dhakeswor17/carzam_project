@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
-import './ApiData.css'
+import '../styles/ApiData.css';
 import { FiArrowRight } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 
