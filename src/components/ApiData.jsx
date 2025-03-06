@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
-import '../styles/ApiData.css';
+import './ApiData.css'
 import { FiArrowRight } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 
@@ -34,9 +34,7 @@ function DataFetching() {
             setLoading(true);
             setError(null);
             navigation("/loading");
-            setTimeout(() => {
-                navigation("/");
-            }, 3000);
+            
 
             //try {
             const baseUrl = "https://regcheck.org.uk/api/reg.asmx";
