@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScanButton from './components/ScanButtonMobile.jsx';
 import './App.css';
 import DataFetching from './components/ApiData';
@@ -6,7 +6,7 @@ import { FiGrid } from 'react-icons/fi';
 import reactLogo from './assets/G2KTitle.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DragAndDrop from './components/DragAndDropComp.jsx';
-import LoadingScreen from './components/LoadingScreen.jsx';
+import LoadingScreen from './LoadingScreen';
 
 function MainApp() {
     return (
@@ -22,7 +22,7 @@ function MainApp() {
                     <ScanButton label="Scan" />
                 </div>
                 <div>
-                    <DataFetching /> 
+                    <DataFetching />
                 </div>
                 <div className="garage-outer-section mt-5 d-md-none" />
                 <div className="garage-section d-flex align-items-center justify-content-center m-1 py-2 px-3 mb-md-5 position-relative">
@@ -43,13 +43,14 @@ function MainApp() {
     );
 }
 
-export default function App() {
+ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<MainApp />} /> 
-                <Route path="/loading" element={<LoadingScreen />} /> 
+                <Route path="/" element={<MainApp />} />
+                <Route path="/loading" element={<LoadingScreen />} />
             </Routes>
         </Router>
     );
 }
+export default App

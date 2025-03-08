@@ -1,34 +1,40 @@
-.container {
-    max-width:100%;
-    background: linear-gradient(to bottom, #1c1c1c, #000000);
-    color: white;
-    font-family: Arial, sans-serif;
-    height: 100vh; 
-  }
-  .footer {
-    width: 100%;
-    font-size: 14px;
-    background: linear-gradient(to top, rgba(68, 85, 85, 0.7), transparent);
-  }
-  .footer p{
-    color: rgb(158, 153, 153);
-  }
-  .logo {
-    font-size: 20px;
-  }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  
-  .app-logo {
-      width: 400px;
-      height: auto;
-      margin-bottom: 20%;
-      animation: spin 7s linear infinite;
-  }
+.car-details {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.car-info p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.common-issues {
+  list-style-type: none;
+  padding: 0;
+}
+
+.common-issues li {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.error-message {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+}
