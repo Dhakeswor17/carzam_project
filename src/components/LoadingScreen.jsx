@@ -1,13 +1,13 @@
 import './LoadingScreen.css';
 import reactLogo from './assets/G2KTitle.png';
-import appLogo from './assets/G2KLogo.png';
+import appLogo from './assets/image.png'; // Your new car logo
 import CheckListComp from './components/CheckListComp';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
-const carData = [{
+const carData = {
     license_plate: "XYZ-789",
     vehicle_health: 7,
     safety_rating: 8,
@@ -25,7 +25,7 @@ const carData = [{
         fuel: "Gasoline",
         transmission: "Automatic"
     },
-    yearly_maintenance_cost: 700)]
+    yearly_maintenance_cost: 700
 };
 
 function LoadingScreen() {
@@ -73,7 +73,9 @@ function LoadingScreen() {
                 <div className='logo col d-flex flex-column align-items-center justify-content-center'>
                     {loading ? (
                         <>
-                            <img className="app-logo" src={appLogo} alt="App Logo" />
+                            <div className="circle-logo">
+                                <img className="app-logo" src={appLogo} alt="App Logo" />
+                            </div>
                             <p>Loading...</p>
                             <CheckListComp checks={checks} />
                         </>
