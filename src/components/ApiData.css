@@ -1,0 +1,96 @@
+/* License plate input container */
+.license-plate-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+}
+
+/* Country prefix box inside the input field */
+.country-prefix-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-align: center;
+    margin-right: 10px;
+    user-select: none; /* Prevent text selection */
+    min-width: 50px; /* Ensure the box has a minimum width */
+}
+
+/* License plate input field */
+.license-plate-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px;
+}
+
+/* Disabled input field */
+.license-plate-input:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+/* Search button */
+.searchButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.searchButton:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Logo lighting effect */
+@keyframes rotateOutline {
+    0% {
+        border-color: #ff8c42 transparent transparent transparent; /* Bright orange */
+        box-shadow: 0 0 10px #ff8c42, 0 0 20px #ff8c42; /* Glow effect */
+    }
+    25% {
+        border-color: transparent #ff8c42 transparent transparent;
+        box-shadow: 0 0 10px #ff8c42, 0 0 20px #ff8c42;
+    }
+    50% {
+        border-color: transparent transparent #ff8c42 transparent;
+        box-shadow: 0 0 10px #ff8c42, 0 0 20px #ff8c42;
+    }
+    75% {
+        border-color: transparent transparent transparent #ff8c42;
+        box-shadow: 0 0 10px #ff8c42, 0 0 20px #ff8c42;
+    }
+    100% {
+        border-color: #ff8c42 transparent transparent transparent;
+        box-shadow: 0 0 10px #ff8c42, 0 0 20px #ff8c42;
+    }
+}
+
+.circle-logo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 4px solid transparent;
+    animation: rotateOutline 2s linear infinite;
+}
+
+.circle-logo img {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    object-fit: cover;
+}
