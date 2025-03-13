@@ -23,8 +23,7 @@ const carData = {
         transmission: "Automatic"
     },
     yearly_maintenance_cost: 700
-}
-
+};
 
 function DataFetching() {
     const [loading, setLoading] = useState(false);
@@ -50,13 +49,31 @@ function DataFetching() {
         "Australia",
     ];
 
+    // Get the first three letters of the selected country
+    const getCountryPrefix = (country) => {
+        return country.slice(0, 3).toUpperCase();
+    };
+
+    // Handle country selection
+    const handleCountryChange = (e) => {
+        const country = e.target.value;
+        setSelectedCountry(country);
+    };
+
+    // Handle search button click
+    const handleButtonClick = () => {
+        if (!selectedCountry || !inputValue.trim()) return;
+        const fullLicensePlate = `${getCountryPrefix(selectedCountry)} ${inputValue}`;
+        setSearchQuery(fullLicensePlate);
+    };
+
     useEffect(() => {
         if (!searchQuery) return;
 
         const fetchData = async () => {
             setLoading(true);
             setError(null);
-            navigation("/loading", { state: { searchQuery } }); // Pass searchQuery to LoadingScreen
+            navigation("/loading", { state: { searchQuery } });
 
             setTimeout(() => {
                 if (searchQuery === carData.license_plate) {
@@ -68,57 +85,45 @@ function DataFetching() {
                 }
                 setLoading(false);
             }, 3000); // Simulate a 3-second delay
-            //const response = await fetch(apiUrl);
-            //if (!response.ok) throw new Error("Failed to fetch data");
-
-            //const text = await response.text(); 
-            //const parser = new DOMParser();
-            //const xmlDoc = parser.parseFromString(text, "text/xml");
-
-
-            //const vehicleData = xmlDoc.getElementsByTagName("vehicleJson")[0]?.textContent;
-            //const parsedData = vehicleData ? JSON.parse(vehicleData) : null;
-
-            //setData(parsedData);
-            // } catch (error) {
-            //   console.error("Error fetching XML:", error);
-            // setError(error.message);
-            //} finally {
-            //  setLoading(false);
-            //}
         };
 
         fetchData();
     }, [searchQuery, navigation]);
 
-    const handleInputChange = (e) => {
-        setInputValue(e.target.value);
-    };
-
-    const handleButtonClick = () => {
-        if (!inputValue.trim()) return;
-        setSearchQuery(inputValue);
-    };
-
     return (
         <div className='col form-section mb-5 d-flex flex-column justify-content-center'>
-            <select className='col countrySelector p-3 mb-4 rounded' value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}>
+            <select
+                className='col countrySelector p-3 mb-4 rounded'
+                value={selectedCountry}
+                onChange={handleCountryChange}
+            >
+                <option value="" disabled>Select a country</option>
                 {countries.map((country) => (
                     <option key={country} value={country}>
                         {country}
                     </option>
                 ))}
             </select>
-            <div>
+            <div className="license-plate-input-container">
+                {/* Country prefix box inside the input field */}
+                <div className="country-prefix-box">
+                    {selectedCountry ? getCountryPrefix(selectedCountry) : "---"}
+                </div>
+                {/* License plate input field */}
                 <input
-                    className='col inputField p-3 mt-3 rounded'
+                    className='license-plate-input'
                     type="text"
                     value={inputValue}
-                    onChange={handleInputChange}
+                    onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Type licence plate"
+                    disabled={!selectedCountry}
                 />
-
-                <button className='col searchButton p-3 ms-3 rounded' onClick={handleButtonClick} disabled={loading}>
+                {/* Search button */}
+                <button
+                    className='searchButton'
+                    onClick={handleButtonClick}
+                    disabled={loading || !selectedCountry || !inputValue.trim()}
+                >
                     <FiArrowRight />
                 </button>
             </div>
