@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const carData = {
     license_plate: "XYZ-789",
+    country: "Finland",
     vehicle_health: 7,
     safety_rating: 8,
     market_value: 22000,
@@ -63,7 +64,7 @@ function DataFetching() {
     // Handle search button click
     const handleButtonClick = () => {
         if (!selectedCountry || !inputValue.trim()) return;
-        const fullLicensePlate = `${getCountryPrefix(selectedCountry)} ${inputValue}`;
+        const fullLicensePlate = inputValue; // Use only the input value for search
         setSearchQuery(fullLicensePlate);
     };
 
@@ -76,6 +77,7 @@ function DataFetching() {
             navigation("/loading", { state: { searchQuery } });
 
             setTimeout(() => {
+                // Check if the searchQuery matches the carData.license_plate
                 if (searchQuery === carData.license_plate) {
                     setData(carData);
                     setIsLicensePlateFound(true);
