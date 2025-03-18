@@ -1,0 +1,17 @@
+$primary: #00B889;
+$secondary: #0081F5;
+$accent: #F02677;
+$support: #8E3DF5;
+$background: #F8FAFC;
+$surface: #FFFFFF;
+$text-primary: #1E293B;
+$text-secondary: #64748B;
+
+.bg-background-element {
+    background-color: $background !important;
+    color: black; 
+  }
+.text-title{
+    color: $text-primary;
+}
+@import "bootstrap/scss/bootstrap";

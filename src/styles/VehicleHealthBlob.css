@@ -1,0 +1,21 @@
+.card_health{
+    width:auto;
+    height: 200px;
+    min-width: 250px;
+    max-width: 400px;
+}
+.icon_health{
+    background-color: rgba(206, 162, 247, 0.897) ; 
+}
+
+.health_rating{
+    color: rgba(206, 162, 247, 0.897) ; 
+}
+.safety_rating{
+    color: rgba(84, 165, 240, 0.788) ; 
+}
+
+.icon_safety{
+    background-color: rgba(84, 165, 240, 0.788) ;
+    
+}
