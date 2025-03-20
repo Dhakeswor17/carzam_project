@@ -7,9 +7,11 @@ import Collapse from 'react-bootstrap/Collapse';
 import InfoMainImage from './assets/image1.png';
 import IssueBlob from './components/issueBlob.jsx';
 import VehicleHealth from './components/VehicleHealthBlob.jsx';
+// import '../src/styles/colors.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../src/styles/colors.scss';
 import '../src/styles/infopage.css';
+
+
 
 
 
