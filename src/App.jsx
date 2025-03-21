@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScanButton from './components/ScanButtonMobile.jsx';
-import './App.css';
+import '../src/styles/App.css';
 import DataFetching from './components/ApiData';
 import { FiGrid } from 'react-icons/fi';
 import reactLogo from './assets/G2KTitle.png';
