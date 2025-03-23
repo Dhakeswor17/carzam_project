@@ -7,6 +7,7 @@ import reactLogo from './assets/G2KTitle.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DragAndDrop from './components/DragAndDropComp.jsx';
 import LoadingScreen from './LoadingScreen';
+import InfoScreen from './infopage.jsx';
 
 function MainApp() {
     return (
@@ -43,14 +44,16 @@ function MainApp() {
     );
 }
 
- function App() {
+function App() {
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<MainApp />} />
                 <Route path="/loading" element={<LoadingScreen />} />
+                <Route path="/info" element={<InfoScreen />} />
             </Routes>
         </Router>
     );
 }
-export default App
+
+export default App;
