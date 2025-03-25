@@ -26,4 +26,4 @@ function CountryScrollviewComp({ countries, onCountrySelect }) {
     );
 }
 
-export default CountryScrollviewComp
+export default CountryScrollviewComp;
