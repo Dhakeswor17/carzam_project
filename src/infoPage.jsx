@@ -76,7 +76,14 @@ function InfoScreen() {
                 Search Again
             </Button>
 
-          
+            <footer className="footer p-3 d-flex justify-content-center bottom-0" >
+                <div className='footer-text mt-5' >
+                    <p className="m-0">Good2Know is a Trademark of 123 Oy</p>
+                    <p>
+                        <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a>
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 }
