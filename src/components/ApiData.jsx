@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import '../styles/colors.scss';
 import '../styles/ApiData.css';
 import { FiArrowRight } from "react-icons/fi";
