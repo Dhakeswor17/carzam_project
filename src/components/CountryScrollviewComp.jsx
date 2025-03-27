@@ -1,4 +1,5 @@
-import React from "react";
+
+import PropTypes from "prop-types";
 
 function CountryScrollviewComp({ countries, onCountrySelect }) {
     return (
@@ -25,5 +26,9 @@ function CountryScrollviewComp({ countries, onCountrySelect }) {
         </div>
     );
 }
+CountryScrollviewComp.propTypes = {
+    countries: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onCountrySelect: PropTypes.func.isRequired,
+};
 
 export default CountryScrollviewComp;

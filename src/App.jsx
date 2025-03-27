@@ -7,7 +7,7 @@ import reactLogo from './assets/G2KTitle.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DragAndDrop from './components/DragAndDropComp.jsx';
 import LoadingScreen from './LoadingScreen';
-import InfoScreen from './infopage.jsx';
+import InfoScreen from './infoPage.jsx';
 
 function MainApp() {
     return (
