@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+//import { useRef } from 'react';
 import carData from './mimicdata.jsx';
 import './issueBlob.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function IssueBlob() {
   const issues = carData.common_issues;
 
-  function getBadgeColor(value) {
+  function getBadgeColor() {
     return 'bg-success'; // Low severity (green)
   }
 
