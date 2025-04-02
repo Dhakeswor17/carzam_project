@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+
 import carData from './mimicdata.jsx';
 import { FiHeart } from 'react-icons/fi'
 import { MdOutlineShield } from "react-icons/md";
