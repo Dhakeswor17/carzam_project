@@ -7,7 +7,7 @@ import reactLogo from './assets/G2KTitle.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DragAndDrop from './components/DragAndDropComp.jsx';
 import LoadingScreen from './LoadingScreen';
- import InfoScreen from './infoPage.jsx';
+import InfoScreen from './infopage.jsx';
 
 function MainApp() {
     return (
@@ -16,10 +16,8 @@ function MainApp() {
                 <div className="title mb-4">
                     <img src={reactLogo} alt="React Logo" />
                 </div>
-                <div className='d-none d-lg-block mb-3'>
-                    <DragAndDrop />
-                </div>
-                <div className='d-lg-none d-block'>
+                {/* Replace DragAndDrop with ScanButton for all screen sizes */}
+                <div className='mb-3'>
                     <ScanButton label="Scan" />
                 </div>
                 <div>
