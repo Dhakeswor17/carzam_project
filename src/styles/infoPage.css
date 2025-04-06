@@ -1,0 +1,31 @@
+.container-fluid {
+    max-width:100%;
+    background: linear-gradient(to bottom, #1c1c1c, #000000);
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh; 
+    padding-left: 0px;
+    padding-right: 0px;
+    
+  }
+  .InfoMainImage{
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    object-position: center; 
+    
+  }
+  .InfoMainImage img{
+    width: fit-content;
+    height: fit-content;
+    max-height: 300px;
+  }
+ 
+  .footer {
+    width: 100%;
+    font-size: 14px;
+    background: linear-gradient(to top, rgba(68, 85, 85, 0.7), transparent);
+  }
+  .footer p{
+    color: rgb(158, 153, 153);
+  }
