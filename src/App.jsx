@@ -9,8 +9,9 @@ import DragAndDrop from './components/DragAndDropComp.jsx';
 import LoadingScreen from './LoadingScreen';
 import InfoScreen from './infopage.jsx';
 
+
 function MainApp() {
-    return (
+return (
         <div>
             <div className='container col d-flex flex-column align-items-center justify-content-center '>
                 <div className="title mb-4">
