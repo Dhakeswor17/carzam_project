@@ -19,25 +19,24 @@ function LoadingScreen() {
     const searchQuery = location.state?.searchQuery;
 
     useEffect(() => {
-        const timer1 = setTimeout(() => setChecks([true, false, false]), 1000);
-        const timer2 = setTimeout(() => setChecks([true, true, false]), 2000);
-        const timer3 = setTimeout(() => setChecks([true, true, true]), 3000);
-
-        // Simulate license plate check
-        setTimeout(() => {
-            if (searchQuery === carData.license_plate) {
-                setIsLicensePlateFound(true);
-            } else {
+        let timeoutId;
+        
+        // Immediate check for license plate
+        if (searchQuery === carData.license_plate) {
+            setIsLicensePlateFound(true);
+            setChecks([true, true, true]);
+            setLoading(false);
+        } else {
+            // Set timeout for 30 seconds if plate not found
+            timeoutId = setTimeout(() => {
                 setError("License plate not found");
                 setIsLicensePlateFound(false);
-            }
-            setLoading(false); // Stop loading after 3 seconds
-        }, 3000);
+                setLoading(false);
+            }, 30000); // 30 seconds
+        }
 
         return () => {
-            clearTimeout(timer1);
-            clearTimeout(timer2);
-            clearTimeout(timer3);
+            clearTimeout(timeoutId);
         };
     }, [searchQuery]);
 
@@ -58,14 +57,13 @@ function LoadingScreen() {
                                 <img className="app-logo" src={appLogo} alt="App Logo" />
                             </div>
                             <p>Loading...</p>
-                            <CheckListComp checks={checks} />
+                            <CheckListComp checks={checks} isLicensePlateFound={isLicensePlateFound} />
                         </>
                     ) : (
                         <>
                             {isLicensePlateFound ? (
                                 <div className=' mb-5'>
                                     <InfoScreen />
-
                                     <Button variant="primary" onClick={handleSearchAgain} className="mt-3">
                                         Search Again
                                     </Button>
@@ -82,7 +80,6 @@ function LoadingScreen() {
                     )}
                 </div>
             </div>
-           
         </div>
     );
 }
