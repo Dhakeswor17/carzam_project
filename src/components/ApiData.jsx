@@ -1,18 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import  { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../styles/colors.scss';
 import '../styles/ApiData.css';
 import { FiArrowRight } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
-import carData from './mimicdata.jsx';
 
 function DataFetching() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedCountry, setSelectedCountry] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
     const [inputValue, setInputValue] = useState("");
-    const [isLicensePlateFound, setIsLicensePlateFound] = useState(false);
     const navigation = useNavigate();
 
     const countries = [
@@ -38,34 +35,25 @@ function DataFetching() {
         setSelectedCountry(country);
     };
 
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
         if (!selectedCountry || !inputValue.trim()) return;
-        const fullLicensePlate = inputValue;
-        setSearchQuery(fullLicensePlate);
+        
+        setLoading(true);
+        setError(null);
+        
+        try {
+            // Navigate to loading screen immediately with the search parameters
+            navigation("/loading", { 
+                state: { 
+                    searchQuery: inputValue, 
+                    selectedCountry 
+                } 
+            });
+        } catch (err) {
+            setError("Failed to initiate search");
+            setLoading(false);
+        }
     };
-
-    useEffect(() => {
-        if (!searchQuery) return;
-
-        const fetchData = async () => {
-            setLoading(true);
-            setError(null);
-            navigation("/loading", { state: { searchQuery } });
-
-            setTimeout(() => {
-                if (searchQuery === carData.license_plate) {
-                    setIsLicensePlateFound(true);
-                    navigation("/info"); // Navigate to the InfoScreen route
-                } else {
-                    setError("License plate not found");
-                    setIsLicensePlateFound(false);
-                }
-                setLoading(false);
-            }, 3000);
-        };
-
-        fetchData();
-    }, [searchQuery, navigation]);
 
     return (
         <div className='col form-section mb-5 d-flex flex-column justify-content-center'>
@@ -92,6 +80,7 @@ function DataFetching() {
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Type licence plate"
                     disabled={!selectedCountry}
+                    onKeyDown={(e) => e.key === 'Enter' && handleButtonClick()}
                 />
                 <button
                     className='searchButton'
