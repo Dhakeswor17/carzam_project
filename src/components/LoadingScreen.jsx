@@ -20,7 +20,12 @@ function LoadingScreen() {
     const searchQuery = location.state?.searchQuery;
     const selectedCountry = location.state?.selectedCountry;
 
-    useEffect(() => { 
+    useEffect(() => {
+        // Start the visual loading sequence
+        const timer1 = setTimeout(() => setChecks([true, false, false]), 1000);
+        const timer2 = setTimeout(() => setChecks([true, true, false]), 2000);
+        const timer3 = setTimeout(() => setChecks([true, true, true]), 3000);
+
         const fetchData = async () => {
             try {
                 if (searchQuery && selectedCountry) {
@@ -37,11 +42,6 @@ function LoadingScreen() {
                 setLoading(false);
             }
         };
-
-        // Start the visual loading sequence
-        const timer1 = setTimeout(() => setChecks([true, false, false]), 1000);
-        const timer2 = setTimeout(() => setChecks([true, true, false]), 2000);
-        const timer3 = setTimeout(() => setChecks([true, true, true]), 3000);
 
         fetchData();
 
@@ -73,7 +73,7 @@ function LoadingScreen() {
                         </>
                     ) : (
                         <>
-                            {carData ? (
+                            {isLicensePlateFound && carData ? (
                                 <div className=' mb-5'>
                                     <InfoScreen data={carData} />
                                     <Button variant="primary" onClick={handleSearchAgain} className="mt-3">
@@ -82,7 +82,7 @@ function LoadingScreen() {
                                 </div>
                             ) : (
                                 <div className="error-message card p-4">
-                                    <p style={{ color: "red" }}>{error || "No data available"}</p>
+                                    <p style={{ color: "red" }}>{error || "License plate not found"}</p>
                                     <Button variant="primary" onClick={handleSearchAgain} className="mt-3">
                                         Search Again
                                     </Button>
