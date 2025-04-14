@@ -7,41 +7,53 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import InfoScreen from './infopage.jsx';
-import carData from './components/mimicdata.jsx';
+import { getInfo } from './components/api.jsx';
 
 function LoadingScreen() {
     const [checks, setChecks] = useState([false, false, false]);
     const [isLicensePlateFound, setIsLicensePlateFound] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [carData, setCarData] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
     const searchQuery = location.state?.searchQuery;
+    const selectedCountry = location.state?.selectedCountry;
 
-    useEffect(() => {
-        let timeoutId;
-        
-        // Immediate check for license plate
-        if (searchQuery === carData.license_plate) {
-            setIsLicensePlateFound(true);
-            setChecks([true, true, true]);
-            setLoading(false);
-        } else {
-            // Set timeout for 30 seconds if plate not found
-            timeoutId = setTimeout(() => {
-                setError("License plate not found");
+    useEffect(() => { 
+        const fetchData = async () => {
+            try {
+                if (searchQuery && selectedCountry) {
+                    const data = await getInfo(selectedCountry, searchQuery);
+                    console.log("✅ Fetched car data:", data);
+                    setCarData(data);
+                    setIsLicensePlateFound(true);
+                }
+            } catch (err) {
+                console.error("Error fetching car info:", err);
+                setError("Failed to fetch vehicle data");
                 setIsLicensePlateFound(false);
+            } finally {
                 setLoading(false);
-            }, 30000); // 30 seconds
-        }
+            }
+        };
+
+        // Start the visual loading sequence
+        const timer1 = setTimeout(() => setChecks([true, false, false]), 1000);
+        const timer2 = setTimeout(() => setChecks([true, true, false]), 2000);
+        const timer3 = setTimeout(() => setChecks([true, true, true]), 3000);
+
+        fetchData();
 
         return () => {
-            clearTimeout(timeoutId);
+            clearTimeout(timer1);
+            clearTimeout(timer2);
+            clearTimeout(timer3);
         };
-    }, [searchQuery]);
+    }, [searchQuery, selectedCountry]);
 
     const handleSearchAgain = () => {
-        navigate("/"); // Navigate back to the home page to search again
+        navigate("/");
     };
 
     return (
@@ -57,20 +69,20 @@ function LoadingScreen() {
                                 <img className="app-logo" src={appLogo} alt="App Logo" />
                             </div>
                             <p>Loading...</p>
-                            <CheckListComp checks={checks} isLicensePlateFound={isLicensePlateFound} />
+                            <CheckListComp checks={checks} />
                         </>
                     ) : (
                         <>
-                            {isLicensePlateFound ? (
+                            {carData ? (
                                 <div className=' mb-5'>
-                                    <InfoScreen />
+                                    <InfoScreen data={carData} />
                                     <Button variant="primary" onClick={handleSearchAgain} className="mt-3">
                                         Search Again
                                     </Button>
                                 </div>
                             ) : (
                                 <div className="error-message card p-4">
-                                    <p style={{ color: "red" }}>{error}</p>
+                                    <p style={{ color: "red" }}>{error || "No data available"}</p>
                                     <Button variant="primary" onClick={handleSearchAgain} className="mt-3">
                                         Search Again
                                     </Button>
