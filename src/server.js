@@ -1,146 +1,192 @@
-import express from "express";
+import express, { json } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import axios from "axios";
 import multer from "multer";
+import { parseStringPromise } from "xml2js";
 import OpenAI from "openai";
-import { promises as fs } from 'fs';
-import { existsSync, mkdirSync } from 'fs';
+import fs from 'fs/promises';
 import { fileTypeFromBuffer } from 'file-type';
-
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Create uploads directory if it doesn't exist
-if (!existsSync('uploads')) {
-  mkdirSync('uploads');
-}
-
 app.use(cors());
 app.use(express.json());
 
+const regCheckUser = process.env.regCheckUser;
+
+// Configure multer to save uploaded files to the "uploads/" folder
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
+    // Generate a unique filename by prefixing with a timestamp
     cb(null, `${Date.now()}-${file.originalname}`);
   }
 });
-const upload = multer({ storage });
+const uploads = multer({ storage });
 
-// Use mock data flag
-const USE_MOCK_DATA = true; // Set to false when ready for real API
+// Function to get GPT-4 response via OpenAI
+async function getOpenAiResponse(prompt) {
+  try {
+    const client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    const msg = await client.chat.completions.create({
+      model: "gpt-4",
+      messages: [
+        {
+          role: "system",
+          content: `You are a JSON maker that extracts and calculates car values from provided data. Convert our regcheck data into the following exact JSON format (and nothing else):
+{
+  "vehicle_health": "1-10",
+  "safety_rating": "1-10",
+  "prices": {
+    "labels": ["Min Price", "Avg Price", "Max Price"],
+    "datasets": {
+      "label": "Car Prices",
+      "data": ["minprice", "avgprice", "maxprice"],
+      "backgroundColor": ["rgba(75,192,192,0.6)", "rgba(54,162,235,0.6)", "rgba(255,99,132,0.6)"],
+      "barPercentage": 0.6,
+      "categoryPercentage": 0.6
+    }
+  },
+  "common_issues": {
+    "Engine Misfire": "1-100",
+    "Oil Leak": "1-100",
+    "Battery Drain": "1-100",
+    "Brake Wear": "1-100",
+    "Transmission Slippage": "1-100",
+    "AC Malfunction": "1-100",
+    "Electrical Issues": "1-100",
+    "Tire Pressure Loss": "1-100"
+  },
+  "basic_info": {
+    "Carmake": "",
+    "Carmodel": "",
+    "RegistrationYear": "",
+    "BodyType": "",
+    "FuelType": "",
+    "Transmission": ""
+  },
+  "yearly_maintenance_cost": ""
+}
+Respond with valid JSON only.`,
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
+    return msg;
+  } catch (error) {
+    console.error(
+      "Error:",
+      error.response ? error.response.data : error.message
+    );
+    throw new Error("Error fetching response from OpenAI");
+  }
+}
 
-// Updated OpenAI model
-const OPENAI_MODEL = "gpt-4-turbo";
+
+async function getRegcheckResponse(selectedCountry, searchQuery) {
+  const baseUrl = "https://regcheck.org.uk/api/reg.asmx";
+  const regCheckUrl = `${baseUrl}/Check${selectedCountry}?RegistrationNumber=${searchQuery}&username=${regCheckUser}`;
+  try {
+    const response = await axios.get(regCheckUrl, { responseType: "text" });
+    const parsedData = await parseStringPromise(response.data);
+    const vehicleJson = parsedData.Vehicle.vehicleJson;
+    if (vehicleJson) {
+      console.log("vehicleJson", vehicleJson);
+      return JSON.parse(vehicleJson);
+    } else {
+      throw new Error("vehicleJson not found in RegCheck response");
+    }
+  } catch (error) {
+    console.error("Error fetching or parsing RegCheck data:", error.message);
+    throw error;
+  }
+}
+
+app.get("/openaiapi", async (req, res) => {
+  const prompt = req.query.prompt || "tell me about volvo xc-60";
+  try {
+    const openAiResponse = await getOpenAiResponse(prompt);
+    const parsed = JSON.parse(openAiResponse.choices[0].message.content);
+    res.json(parsed);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to process OpenAI prompt", details: err.message });
+  }
+});
 
 app.post("/regcheck", async (req, res) => {
   const { selectedCountry, searchQuery } = req.body;
-  
-  if (USE_MOCK_DATA) {
-    console.log("Using mock data instead of real API");
-    try {
-      const mockData = {
-        license_plate: searchQuery || "XYZ-789",
-        vehicle_health: 7,
-        safety_rating: 8,
-        market_value: 22000,
-        common_issues: {
-          "Engine Misfire": "12%",
-          "Oil Leak": "9%",
-          "Battery Drain": "6%"
-        },
-        basic_info: {
-          Carmake: "Mazda",
-          Carmodel: "CX-5",
-          RegistrationYear: "2020",
-          BodyType: "SUV",
-          FuelType: "Gasoline",
-          Transmission: "Automatic"
-        },
-        yearly_maintenance_cost: 700
-      };
-      
-      return res.json(mockData);
-    } catch (error) {
-      console.error("Mock data error:", error);
-      return res.status(500).json({ error: "Failed to generate mock data" });
-    }
+  if (!selectedCountry || !searchQuery) {
+    return res.status(400).json({ error: "Missing country or license plate" });
   }
-
-  // If not using mock data, your original API code would go here
-  return res.status(501).json({ error: "Real API not implemented yet" });
+  try {
+    const vehicleData = await getRegcheckResponse(selectedCountry, searchQuery);
+    const prompt = "This is our regcheck data, convert it to our specified JSON format: " + JSON.stringify(vehicleData);
+    const openAiResponse = await getOpenAiResponse(prompt);
+    const parsedResponse = JSON.parse(openAiResponse.choices[0].message.content);
+    console.log("openAiResponse", JSON.stringify(parsedResponse, null, 2));
+    return res.json(parsedResponse);
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to fetch vehicle data from RegCheck",
+      details: error.message,
+    });
+  }
 });
 
-app.post('/upload', upload.single('image'), async (req, res) => {
+// Updated POST endpoint to handle file uploads using GPT-4
+app.post('/upload', uploads.single('image'), async (req, res) => {
+   //Check if a file was uploaded
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
-
   try {
     const fileBuffer = await fs.readFile(req.file.path);
     const base64Image = fileBuffer.toString('base64');
     const typeResult = await fileTypeFromBuffer(fileBuffer);
 
-    if (!typeResult) {
-      throw new Error('Could not determine file type');
-    }
+  
+const openai = new OpenAI();
+const response = await openai.responses.create({
+  model: "gpt-4o-mini",
+  input: [
+    {
+      role: "system",
+      content: `You are a JSON maker that. Convert our car image to data with following the exact JSON format (and nothing else):
+{
+"license_plate" : (license plate),
+"license_plate_country" : (country with small letters and spell the country with full form),
+}
+Respond with valid JSON only.`,
+    },
+    {
+      role: "user",
+      content: [
+          { type: "input_text", text: "here is a picture. Please identify the country code, license plate number. Respond in valid JSON format." },
+          {
+              type: "input_image",
+              image_url: `data:${typeResult.mime};base64,${base64Image}`,
+          },
+    ],
+}],
+});
 
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
 
-    const response = await openai.chat.completions.create({
-      model: OPENAI_MODEL,
-      messages: [
-        {
-          role: "system",
-          content: "Extract license plate information from the image and return in JSON format"
-        },
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "Extract the license plate number and country from this image."
-            },
-            {
-              type: "image_url",
-              image_url: {
-                url: `data:${typeResult.mime};base64,${base64Image}`
-              }
-            }
-          ]
-        }
-      ],
-      max_tokens: 300
-    });
-
-    // Clean up the uploaded file
-    await fs.unlink(req.file.path);
-
-    return res.json({
-      message: 'File processed successfully',
-      data: response.choices[0].message.content
-    });
+    const openAiResponse = response;
+    console.log(openAiResponse);
+    return res.json({ message: 'File processed successfully' });
   } catch (error) {
-    console.error('Upload Error:', error);
-    
-    // Clean up the file if it exists
-    if (req.file?.path) {
-      try {
-        await fs.unlink(req.file.path);
-      } catch (cleanupError) {
-        console.error('Cleanup Error:', cleanupError);
-      }
-    }
-
-    return res.status(500).json({ 
-      error: 'Error processing file',
-      details: error.message 
-    });
+    console.error('Error processing file:', error);
+    return res.status(500).json({ error: 'Error processing file', details: error.message });
   }
 });
 
