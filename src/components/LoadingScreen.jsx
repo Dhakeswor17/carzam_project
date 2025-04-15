@@ -11,7 +11,6 @@ import { getInfo } from './components/api.jsx';
 
 function LoadingScreen() {
     const [checks, setChecks] = useState([false, false, false]);
-    const [isLicensePlateFound, setIsLicensePlateFound] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [carData, setCarData] = useState(null);
@@ -21,7 +20,6 @@ function LoadingScreen() {
     const selectedCountry = location.state?.selectedCountry;
 
     useEffect(() => {
-        // Start the visual loading sequence
         const timer1 = setTimeout(() => setChecks([true, false, false]), 1000);
         const timer2 = setTimeout(() => setChecks([true, true, false]), 2000);
         const timer3 = setTimeout(() => setChecks([true, true, true]), 3000);
@@ -30,14 +28,11 @@ function LoadingScreen() {
             try {
                 if (searchQuery && selectedCountry) {
                     const data = await getInfo(selectedCountry, searchQuery);
-                    console.log("✅ Fetched car data:", data);
                     setCarData(data);
-                    setIsLicensePlateFound(true);
                 }
             } catch (err) {
                 console.error("Error fetching car info:", err);
                 setError("Failed to fetch vehicle data");
-                setIsLicensePlateFound(false);
             } finally {
                 setLoading(false);
             }
@@ -73,12 +68,12 @@ function LoadingScreen() {
                         </>
                     ) : (
                         <>
-                            {isLicensePlateFound && carData ? (
-                                <div className=' mb-5'>
+                            {carData ? (
+                                <div className='mb-5'>
                                     <InfoScreen data={carData} />
-                                    <Button variant="primary" onClick={handleSearchAgain} className="mt-3">
+                                    {/* <Button variant="primary" onClick={handleSearchAgain} className="mt-3">
                                         Search Again
-                                    </Button>
+                                    </Button> */}
                                 </div>
                             ) : (
                                 <div className="error-message card p-4">
