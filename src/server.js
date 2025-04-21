@@ -40,7 +40,7 @@ async function getOpenAiResponse(prompt) {
       messages: [
         {
           role: "system",
-          content: `You are a JSON maker that extracts and calculates car values from provided data. Convert our regcheck data into the following exact JSON format (and nothing else):
+          content: `You are a JSON maker that extracts and calculates car values from provided data. Convert our regcheck data into the following exact JSON format i will give you ecample of values. (and nothing else):
 {
   "vehicle_health": "1-10",
   "safety_rating": "1-10",
