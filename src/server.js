@@ -161,12 +161,12 @@ const response = await openai.responses.create({
   input: [
     {
       role: "system",
-      content: `You are a JSON maker that. Convert our car image to data with following the exact JSON format (and nothing else):
+      content: `You are a JSON maker that. Convert our car image to data with following the exact JSON format (and nothing else): and dont add backticks and json only json with info that i want'
 {
 "license_plate" : (license plate),
-"license_plate_country" : (country with small letters and spell the country with full form),
+"license_plate_country" : (country with small letters and spell the country with full form fist letter with caps),
 }
-Respond with valid JSON only.`,
+Respond with valid JSON only. `,
     },
     {
       role: "user",
@@ -183,7 +183,9 @@ Respond with valid JSON only.`,
 
     const openAiResponse = response;
     console.log(openAiResponse);
-    return res.json({ message: 'File processed successfully' });
+    const parsedResponse = JSON.parse(openAiResponse.output_text);
+    console.log(parsedResponse);
+    return res.json({ parsedResponse });
   } catch (error) {
     console.error('Error processing file:', error);
     return res.status(500).json({ error: 'Error processing file', details: error.message });
