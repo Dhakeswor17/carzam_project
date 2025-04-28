@@ -1,91 +1,99 @@
 import { useState } from 'react';
-import reactLogo from './assets/G2KTitle.png';
-import cardata from './components/mimicdata.jsx';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Collapse from 'react-bootstrap/Collapse';
 import InfoMainImage from './assets/image1.png';
 import IssueBlob from './components/issueBlob.jsx';
+import Price from './components/PriceBlob.jsx';
 import VehicleHealth from './components/VehicleHealthBlob.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../src/styles/colors.scss';
-import '../src/styles/infopage.css';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import './infoPage.css';
+import { useNavigate } from 'react-router-dom';
 
-function InfoScreen() {
-    const [open, setOpen] = useState(false);
-    const navigate = useNavigate(); // Initialize useNavigate
+function InfoScreen({ data }) {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-    // Function to handle "Search Again" button click
-    const handleSearchAgain = () => {
-        navigate("/"); // Navigate back to the home page
-    };
+  return (
+    <div className='container-fluid'>
+      
+      <div className="full-width-car">
+        <h2 className='mb-3'>{data?.basic_info?.Carmake} {data?.basic_info?.Carmodel}</h2>
+        <img src={InfoMainImage} alt="Vehicle" />
+      </div>
 
-    return (
-        <div className='container-fluid col d-flex flex-column align-items-center pt-5 bg-background-element'>
-            <div className="TitleLogo mb-4">
-                <img src={reactLogo} alt="React Logo" />
-            </div>
-            <div className="InfoMainImage d-flex flex-column align-items-center me-1 mb-5">
-                <h2 className='mb-5'>{cardata.license_plate}</h2>
-                <img
-                    src={InfoMainImage}
-                    style={{
-                        maskImage: "linear-gradient( rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%)",
-                        WebkitMaskImage: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%)"
-                    }} />
-            </div>
-            <div className='mt-3 d-flex flex-column align-items-center'>
-                <Button
-                    onClick={() => setOpen(!open)}
-                    aria-controls="example-collapse-text"
-                    className='mt-3  btn btn-primary'
-                    style={{ width: '350px' }}
-                    aria-expanded={open}
-                >
-                    Basic info
-                </Button>
-                <div style={{ minHeight: '100px', width: 'auto', marginBottom: '20px', position: 'static' }}>
-                    <Collapse in={open} dimension="width">
-                        <div id="example-collapse-text">
-                            <Card className='mt-4 bg-background-element' body style={{ width: '250px' }}>
-                                <ul>Brand: {cardata.basic_info.make}</ul>
-                                <ul>Model: {cardata.basic_info.model}</ul>
-                                <ul>Year: {cardata.basic_info.year}</ul>
-                                <ul>Type: {cardata.basic_info.type}</ul>
-                                <ul>Fuel: {cardata.basic_info.fuel}</ul>
-                                <ul>Transmission: {cardata.basic_info.transmission}</ul>
-                            </Card>
-                        </div>
-                    </Collapse>
-                </div>
-                <div className=' mb-5'>
-                    <VehicleHealth />
-                </div>
-                <div className=' mb-5'>
-                    <IssueBlob />
-                </div>
-            </div>
-
-           
-            <Button
-                variant="primary"
-                onClick={handleSearchAgain}
-                className="mt-3"
-            >
-                Search Again
-            </Button>
-
-            <footer className="footer p-3 d-flex justify-content-center bottom-0" >
-                <div className='footer-text mt-5' >
-                    <p className="m-0">Good2Know is a Trademark of 123 Oy</p>
-                    <p>
-                        <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a>
-                    </p>
-                </div>
-            </footer>
+      
+      <div className="content-center">
+        {/* Basic Info Section */}
+        <div className="section-spacing">
+          <Button
+            onClick={() => setOpen(!open)}
+            className="basic-info-btn btn-primary"
+            aria-expanded={open}
+          >
+            Basic info
+          </Button>
+          
+          <Collapse in={open}>
+            <Card className="info-card">
+              <ul className="list-unstyled">
+                <li><strong>Brand:</strong> {data?.basic_info?.Carmake}</li>
+                <li><strong>Model:</strong> {data?.basic_info?.Carmodel}</li>
+                <li><strong>Year:</strong> {data?.basic_info?.RegistrationYear}</li>
+                <li><strong>Type:</strong> {data?.basic_info?.BodyType}</li>
+                <li><strong>Fuel:</strong> {data?.basic_info?.FuelType}</li>
+                <li><strong>Transmission:</strong> {data?.basic_info?.Transmission}</li>
+              </ul>
+            </Card>
+          </Collapse>
         </div>
-    );
+
+        {/* Vehicle Rating */}
+        <div className="section-spacing">
+          <VehicleHealth 
+            healthScore={data?.vehicle_health} 
+            safetyRating={data?.safety_rating} 
+          />
+        </div>
+
+        {/* Market Value */}
+        <div className="section-spacing">
+          <h3>Market Value</h3>
+          <div className="price-container">
+            <Price data={data} />
+          </div>
+        </div>
+
+        {/* Common Issues */}
+        <div className="section-spacing">
+          <IssueBlob issues={data?.common_issues} />
+        </div>
+
+        {/* Search Again Button */}
+        <div className="section-spacing">
+          <Button 
+            variant="primary"
+            size="lg"
+            onClick={() => navigate("/")}
+            className="mt-4 mb-5"
+          >
+            Search Again
+          </Button>
+        </div>
+      </div>
+
+      
+      <footer className="full-width-footer">
+        <div>
+          <p className="mb-2">Good2Know is a Trademark of 123 Oy</p>
+          <div className="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 }
 
 export default InfoScreen;
