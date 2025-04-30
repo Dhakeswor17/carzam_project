@@ -1,4 +1,5 @@
 /* Circle logo container */
+
 .circle-logo {
   width: 150px;
   height: 150px;
@@ -15,19 +16,19 @@
 /* Orange outline animation */
 @keyframes rotateOutline {
   0% {
-      border-color: orange transparent transparent transparent;
+      border-color: rgb(173, 68, 15) transparent transparent transparent;
   }
   25% {
-      border-color: transparent orange transparent transparent;
+      border-color: transparent  rgb(173, 68, 15)transparent transparent;
   }
   50% {
-      border-color: transparent transparent orange transparent;
+      border-color: transparent transparent  rgb(173, 68, 15) transparent;
   }
   75% {
-      border-color: transparent transparent transparent orange;
+      border-color: transparent transparent transparent  rgb(173, 68, 15);
   }
   100% {
-      border-color: orange transparent transparent transparent;
+      border-color:  rgb(173, 68, 15)transparent transparent transparent;
   }
 }
 
@@ -41,7 +42,7 @@
 
 /* Loading text */
 p {
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 18px;
   font-weight: bold;
 }
