@@ -1,28 +1,53 @@
-.countrySelector{
-    background: rgb(37, 37, 37);
-    color: white;
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 30px;
-    border: 1px solid rgba(129, 131, 131, 0.3)
-}
-.inputField{
-    background: rgb(37, 37, 37);
-    color: white;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 6px;
-    border: 1px solid rgba(129, 131, 131, 0.3) ;
-}
-.searchButton{
-    background: rgb(37, 37, 37);
-    color: white;
-    padding: 10px;
-    margin-left: 20px;
-    border-radius: 6px;
-    border: 1px solid rgba(129, 131, 131, 0.3);
+/* License plate input container */
+.license-plate-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
 }
 
-.form-section{
-    margin-bottom: 30px;
+/* Country prefix box inside the input field */
+.country-prefix-box {
+    background-color: #f8f9fa; /* Light gray background */
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-align: center;
+    margin-right: 10px;
+    user-select: none; /* Prevent text selection */
+    min-width: 50px; /* Ensure the box has a minimum width */
+    color: #000; /* Black text color */
+}
+
+/* License plate input field */
+.license-plate-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px;
+}
+
+/* Disabled input field */
+.license-plate-input:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+/* Search button */
+.searchButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.searchButton:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
 }
