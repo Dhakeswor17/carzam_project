@@ -22,11 +22,3 @@ color: white;
   max-height: 300px;
 }
 
-.footer {
-  width: 100%;
-  font-size: 14px;
-  background: linear-gradient(to top, rgba(68, 85, 85, 0.7), transparent);
-}
-.footer p{
-  color: rgb(158, 153, 153);
-}
