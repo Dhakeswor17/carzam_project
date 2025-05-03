@@ -33,3 +33,16 @@
 }
 
 /* Logo image inside the circle */
+.circle-logo img {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Loading text */
+p {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
