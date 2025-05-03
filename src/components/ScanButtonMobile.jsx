@@ -68,8 +68,15 @@ function Button({ label }) {
         {label || 'Click Me'}
       </button>
 
-     
-      
+      {/* Hidden file input to open camera on mobile */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
     </>
   );
 }
