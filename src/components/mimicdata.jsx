@@ -14,15 +14,7 @@ const carData = {
         "Electrical Issues": "13%",
         "Tire Pressure Loss": "7%"
     },
-    basic_info: {
-        make: "Mazda",
-        model: "CX-5",
-        year: 2020,
-        type: "SUV",
-        fuel: "Gasoline",
-        transmission: "Automatic"
-    },
-    yearly_maintenance_cost: 700
+  
 };
 
 export default carData;
