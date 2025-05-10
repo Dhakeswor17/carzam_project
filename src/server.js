@@ -40,7 +40,7 @@ async function getOpenAiResponse(prompt) {
       messages: [
         {
           role: "system",
-          content: `You are a JSON maker that extracts and calculates car values from provided data. Convert our regcheck data into the following exact JSON format i will give you ecample of values. (and nothing else):
+          content: `You are a JSON maker that extracts and calculates car values from provided data. Convert our regcheck data into the following exact JSON format i will give you example replace only the values in example. (and nothing else):
 {
   "vehicle_health": "1-10",
   "safety_rating": "1-10",
@@ -55,14 +55,14 @@ async function getOpenAiResponse(prompt) {
     }
   },
   "common_issues": {
-    "Engine Misfire": "1-100",
-    "Oil Leak": "1-100",
-    "Battery Drain": "1-100",
-    "Brake Wear": "1-100",
-    "Transmission Slippage": "1-100",
-    "AC Malfunction": "1-100",
-    "Electrical Issues": "1-100",
-    "Tire Pressure Loss": "1-100"
+    "Engine Misfire": 1-100,
+    "Oil Leak": 1-100,
+    "Battery Drain": 1-100,
+    "Brake Wear": 1-100,
+    "Transmission Slippage": 1-100,
+    "AC Malfunction": 1-100,
+    "Electrical Issues": 1-100,
+    "Tire Pressure Loss": 1-100
   },
   "basic_info": {
     "Carmake": "",
@@ -72,7 +72,8 @@ async function getOpenAiResponse(prompt) {
     "FuelType": "",
     "Transmission": ""
   },
-  "yearly_maintenance_cost": ""
+  "yearly_maintenance_cost": "",
+  "image_url": ""
 }
 Respond with valid JSON only.`,
         },
@@ -150,6 +151,7 @@ app.post('/upload', uploads.single('image'), async (req, res) => {
     return res.status(400).json({ error: 'No file uploaded' });
   }
   try {
+    console.log("image recived")
     const fileBuffer = await fs.readFile(req.file.path);
     const base64Image = fileBuffer.toString('base64');
     const typeResult = await fileTypeFromBuffer(fileBuffer);
@@ -192,6 +194,6 @@ Respond with valid JSON only. `,
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
