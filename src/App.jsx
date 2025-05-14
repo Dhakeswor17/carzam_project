@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScanButton from './components/ScanButtonMobile.jsx';
-import '../src/styles/App.css';
+import './App.css';
 import DataFetching from './components/ApiData';
 import { FiGrid } from 'react-icons/fi';
 import reactLogo from './assets/G2KTitle.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DragAndDrop from './components/DragAndDropComp.jsx';
-import LoadingScreen from './LoadingScreen';
+import LoadingScreen from './components/LoadingScreen.jsx';
 import InfoScreen from './infoPage.jsx';
 
 
