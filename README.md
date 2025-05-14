@@ -1,5 +1,5 @@
 ![](image-1.png)
-
+![alt text](image-2.png)
 
 🌟 Features
 🔍 Smart Vehicle Lookup - Search by license plate and country
@@ -28,7 +28,7 @@ React Router
 Clone the repo
 
 bash
-git clone https://github.com/yourusername/vehicle-info-dashboard.git
+
 cd vehicle-info-dashboard
 Install dependencies
 
