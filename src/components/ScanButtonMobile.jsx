@@ -28,7 +28,13 @@ function Button({ label }) {
   // Handle the selected (or captured) file
   const handleFileChange = async (event) => {
     const { files } = event.target;
+
+   
+
     if (files && files.length > 0) {
+      
+
+
       const file = files[0];
       console.log('Captured file:', file);
   
@@ -36,7 +42,7 @@ function Button({ label }) {
       formData.append('image', file);
   
       try {
-        const response = await fetch('http://localhost:5000/upload', {
+        const response = await fetch('http://192.168.10.50:5000/upload', {
           method: 'POST',
           body: formData,
         });
@@ -46,14 +52,16 @@ function Button({ label }) {
         const country = result.parsedResponse.license_plate_country;
   
         console.log('Response from backend:', licensePlate, country);
-  
-      
+
         navigate("/loading", {
           state: {
             searchQuery: licensePlate,
             selectedCountry: country
           }
         });
+  
+      
+       
   
       } catch (error) {
         console.error('Error uploading file:', error);

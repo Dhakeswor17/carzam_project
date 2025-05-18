@@ -19,7 +19,7 @@ function InfoScreen({ data }) {
       
       <div className="full-width-car">
         <h2 className='mb-3'>{data?.basic_info?.Carmake} {data?.basic_info?.Carmodel}</h2>
-        <img src={InfoMainImage} alt="Vehicle" />
+        <img src={data?.image_url} alt="Vehicle" />
       </div>
 
       

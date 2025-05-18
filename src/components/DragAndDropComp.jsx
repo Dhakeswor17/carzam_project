@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from "react";
-import './DragAndDropComp.css';
+import '../styles/DragAndDropComp.css';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -10,6 +11,7 @@ import './DragAndDropComp.css';
 function DragAndDrop() {
     const [file, setFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
+    const navigate = useNavigate();
 
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/gif"];
 
@@ -37,6 +39,31 @@ function DragAndDrop() {
             setImageUrl(URL.createObjectURL(selectedFile));
         }
     };
+
+    const handleSend = async() => {
+        navigate('/loading');
+
+        // Create a FormData object to package the file for upload
+        const formData = new FormData();
+        formData.append('image', file);
+    
+        try {
+            // Send a POST request to your backend's upload endpoint
+            const response = await fetch('http://localhost:5000/upload', {
+              method: 'POST',
+              body: formData,
+            });
+    
+            
+            const result = await response.json();
+            console.log('Response from backend:', result);
+          } catch (error) {
+            console.error('Error uploading file:', error);
+          }
+    }
+
+    
+    
 
     return (
         <div
@@ -67,7 +94,7 @@ function DragAndDrop() {
 
             <div className='mt-4 gap-3 d-flex justify-content-center'>
                 {file ?
-                    (<label className="custom-file-label"  >
+                    (<label className="custom-file-label" onClick={handleSend}> 
                         {file ? "send" : " Upload "}
                     </label>) : null
                 }
