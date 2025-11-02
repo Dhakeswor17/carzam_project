@@ -28,3 +28,4 @@ export async function getInfo(selectedCountry, searchQuery) {
         throw error;
     }
   }
+  export default getInfo
