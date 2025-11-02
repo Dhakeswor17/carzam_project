@@ -1,65 +1,72 @@
-# Vehicle Information Scanner
+![](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+🌟 Features
+🔍 Smart Vehicle Lookup - Search by license plate and country
 
+📊 Comprehensive Reports:
 
+📋 Basic specifications (make, model, year)
+
+💰 Market value with interactive price charts
+
+⚠️ Common issues with severity indicators
+
+⭐ Health and safety ratings (1-10 scale)
+
+📱 Fully Responsive - Perfect on mobile, tablet & desktop
+
+🎨 Modern UI - Sleek design with smooth animations
+
+🛠️ Tech Stack
+Frontend	Backend	APIs
+React.js	Node.js	RegCheck API
+Bootstrap 5	Express	OpenAI API
+Chart.js		
+React Router		
+🚀 Quick Start
+Clone the repo
+
+bash
+
+cd vehicle-info-dashboard
+Install dependencies
+
+bash
+npm install
+Configure environment
+
+bash
+echo "REACT_APP_REGCHECK_USER=your_username\nREACT_APP_OPENAI_API_KEY=your_key" > .env
+Run the app
+
+bash
+npm start
+🏗️ Project Structure
+bash
 src/
-├── assets/              # Images/logos
-├── components/          # React components
-├── styles/              # CSS/SASS
-├── App.js               # Main router
-├── infopage.jsx         # Info display
-└── LoadingScreen.jsx    # Loading animation
+├── assets/               # Images & icons
+├── components/           # Reusable components
+│   ├── IssueBlob.jsx     # Common issues display
+│   ├── PriceBlob.jsx     # Interactive price chart
+│   └── VehicleHealthBlob.jsx  # Health indicators
+├── pages/
+│   ├── Home.jsx          # Search interface
+│   ├── InfoScreen.jsx    # Main dashboard
+│   └── LoadingScreen.jsx # Animated loader
+├── styles/               # Custom CSS
+├── App.js                # Root component
+└── index.js              # Entry point
 
-![!(image.png)]
+🤝 Contributing
+We welcome contributions! Please:
 
+Fork the repository
 
-A web application that retrieves detailed vehicle information by license plate number, providing health ratings, safety scores, common issues, and pricing data.
+Create your feature branch
 
-## 🚀 Features
-- License plate search for multiple countries
-- Vehicle health assessment (1-10 rating)
-- Safety rating evaluation
-- Common mechanical issues with probability scores
-- Price estimation (min/avg/max)
-- Responsive mobile-friendly design
+Commit your changes
 
-## 🛠️ Technologies
-**Frontend**: React, Bootstrap, React Router  
-**Backend**: Node.js, Express  
-**APIs**: RegCheck (vehicle data), OpenAI GPT-4 (data formatting)
+Push to the branch
 
-## ⚙️ Installation
-1. Clone repo: `git@github.com:Dhakeswor17/carzam_project.git`
-2. Install dependencies: `npm install`
-3. Create `.env` file:
-   ```env
-   PORT=5000
-   VITE_API_URL=http://localhost:5000/
-   OPENAI_API_KEY=your_key_here
-   regCheckUser=your_regcheck_user
-
-🖥️ Usage
-Select country from dropdown
-
-Enter license plate number
-
-View comprehensive report including:
-
-Make, model, year
-
-Vehicle condition score
-
-Safety assessment
-
-Common problems
-
-Price estimates
-
-🔮 Future Plans
-
-Image upload for plate scanning
-
-User accounts/history
-
-Vehicle comparison tool
-
-Maintenance cost estimates
+Open a pull request
