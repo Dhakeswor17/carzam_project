@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DragAndDrop from './components/DragAndDropComp.jsx';
 import LoadingScreen from './components/LoadingScreen.jsx';
 import InfoScreen from './infoPage.jsx';
+import { FiSearch, FiCamera } from "react-icons/fi";
 
 
 function MainApp() {
