@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScanButton from './components/ScanButtonMobile.jsx';
 import './App.css';
 import DataFetching from './components/ApiData';
